@@ -1,5 +1,6 @@
 
 -- loading motor vehicle insurance table form bronze layer to siver after cleaning the data
+TRUNCATE TABLE mc_silver.mv_insurance;
 INSERT INTO mc_silver.mv_insurance(
 SELECT 
 	id,
