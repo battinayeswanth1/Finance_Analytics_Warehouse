@@ -24,7 +24,11 @@ SELECT
 		when str_to_date(nullif(lapse_date,''), '%d/%m/%Y') is null then 'Active'
         else 'Lapsed'
         end,
-    payment,
+    case
+		when payment = 0 then 'Annual'
+        when payment = 1 then 'Installments'
+        else 'Unkown'
+	end,
 	cast(replace(premium,',','.') as float),					 
     cast(replace(claim_cost_yearly,',','.') as float), 		   
     nclaim_year,
