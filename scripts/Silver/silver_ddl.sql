@@ -35,3 +35,13 @@ veh_fuel_type 				VARCHAR(50),
 veh_lenght					FLOAT,
 veh_weight 					INT
 )CHARACTER SET utf8mb4;
+
+-- creating claim_type table in silver layer
+use mc_silver;
+drop table if exists mc_silver.claim_type;
+create table claim_type(
+ID 						int,
+cost_claims_yearly		float,
+cost_claim_by_type 		float,
+claim_type 				VARCHAR(50)
+) CHARACTER SET utf8mb4;
