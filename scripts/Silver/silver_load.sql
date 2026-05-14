@@ -9,7 +9,11 @@ SELECT
     str_to_date(nullif(next_renewal_date,''), '%d/%m/%Y'), 
     str_to_date(nullif(dob,''), '%d/%m/%Y'), 
     str_to_date(nullif(dl_issue_date,''), '%d/%m/%Y'), 	  
-    distribution_channel,
+    case
+		when distribution_channel = 0 then 'Direct'
+        when distribution_channel = 1 then 'Agent'
+        else 'Unknown'
+	end,
     seniortiy_years,
     policy_running_years,
     max_policies,
