@@ -48,5 +48,13 @@ SELECT
     veh_weight
 from mc_bronze.mv_insurance)
 
-
+-- loading claim_type data from bronze layer to silver layer after cleaning the data
+truncate table mc_silver.claim_type;
+INSERT INTO mc_silver.claim_type
+select
+	id,
+    cast(replace(cost_claims_year,',','.') as float),
+    cast(replace(cost_claim_by_type,',','.') as float),
+    claim_type
+from mc_bronze.claim_type;
 
