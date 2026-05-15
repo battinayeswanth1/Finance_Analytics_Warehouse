@@ -24,3 +24,18 @@ select
     veh_weight as vehicle_weight
 from mc_silver.mv_insurance
 )
+
+-- Creating a dimension table for policy using CTAS
+drop table if exists mc_gold.dim_policy;
+create table mc_gold.dim_policy as(
+select 
+	ID,
+    policy_running_years,
+	distribution_channel,
+    policy_status,
+    payment,
+    risk_type,
+    area,
+    second_driver
+from mc_silver.mv_insurance
+)
