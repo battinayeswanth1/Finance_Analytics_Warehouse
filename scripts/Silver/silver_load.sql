@@ -31,7 +31,11 @@ SELECT
 	end,
 	cast(replace(premium,',','.') as float),					 
     cast(replace(claim_cost_yearly,',','.') as float), 		   
-    nclaim_year,
+    case 
+		when nclaim_year = 0 then 'Clean Record'
+		when nclaim_year between 1 and 2 then 'Minor History'
+		else 'Frequent Claimant'
+	end as driver_risk_segment,
     nclaim_history,
     cast(replace(rclaim_history,',','.') as float),			   
     concat('Risk level','', risk_type),		  
