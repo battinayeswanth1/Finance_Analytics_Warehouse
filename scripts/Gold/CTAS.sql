@@ -39,3 +39,14 @@ select
     second_driver
 from mc_silver.mv_insurance
 )
+
+-- Creating a dimension table for dates using CTAS
+drop table if exists mc_gold.dim_dates;
+create table mc_gold.dim_dates as(
+select 
+	ID,
+    contract_str_date as contract_start_date,
+    last_renewal_date,
+    next_renewal_date
+from mc_silver.mv_insurance
+)
