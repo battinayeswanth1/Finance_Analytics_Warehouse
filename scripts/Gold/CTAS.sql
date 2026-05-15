@@ -50,3 +50,14 @@ select
     next_renewal_date
 from mc_silver.mv_insurance
 )
+
+-- Creating a fact table for insurance details using CTAS
+drop table if exists mc_gold.fact_insurance;
+create table mc_gold.fact_insurance as(
+select 
+	ID,
+    premium,
+    claim_cost_yearly,
+    driver_risk_segment
+from mc_silver.mv_insurance
+)
