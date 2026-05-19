@@ -26,14 +26,6 @@ To translate the engineered Gold Layer database tables into strategic business v
 
 --- 
 
-### 📐 Data Modeling & Core DAX Measures
-
-Due to the multi-year contract snapshots present in the underlying tables, a standard bi-directional relationship would cause severe data bloat. To safeguard the integrity of the data and ensure crisp performance, a **Star Schema** was enforced with strict **Many-to-Many Relationships constrained to a Single Cross-Filter Direction (Dimension filters Fact)**. 
-
-The following key metrics were engineered to drive the analytical engine of the dashboard:
-
----
-
 ## 📜 License
 
 This project is licensed under the MIT License. You are free to use, modify, and share this project with proper attribution.
