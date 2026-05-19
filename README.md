@@ -23,3 +23,16 @@ To translate the engineered Gold Layer database tables into strategic business v
 
 ### 📸 Dashboard Interface
 <img width="1430" height="797" alt="MC_cliam_dashboard" src="https://github.com/user-attachments/assets/333ecb0e-44d7-465a-b3c7-5ac38a3f88a8" />
+
+--- 
+
+## 📜 License
+
+This project is licensed under the MIT License. You are free to use, modify, and share this project with proper attribution.
+
+---
+
+## 👨‍💻 About Me
+
+Hi there! I'm Yeswanth Battina, I’m a Data-driven professional with a focus on turning complex datasets into actionable business insights.
+Check out my profile to know more about my work and connect with me on (https://www.linkedin.com/in/yeswanth-battina-519622266/)
