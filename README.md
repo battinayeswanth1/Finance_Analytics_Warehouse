@@ -22,5 +22,4 @@ To translate the engineered Gold Layer database tables into strategic business v
 * **Containers & Shapes:** Every visualization card utilizes consistent rounded corners (12px radius) and soft drop-shadow effects, elevating the project from a basic chart collection to a sleek web-application interface.
 
 ### 📸 Dashboard Interface
-![Dashboard Final Screenshot](<img width="1430" height="797" alt="MC_cliam_dashboard" src="https://github.com/user-attachments/assets/333ecb0e-44d7-465a-b3c7-5ac38a3f88a8" />
-)
+<img width="1430" height="797" alt="MC_cliam_dashboard" src="https://github.com/user-attachments/assets/333ecb0e-44d7-465a-b3c7-5ac38a3f88a8" />
