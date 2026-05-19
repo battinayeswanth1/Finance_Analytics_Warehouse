@@ -1,73 +1,76 @@
+-- ============================================================================
+-- Layer: Silver (Cleaned / Validated / Enriched)
+-- Description: Performing complete ETL transformation from Bronze staging. 
+--              Handles string-to-date conversions, parsing float formatting, 
+--              and transforming categorical integer keys into clean business text labels.
+-- ============================================================================
 
--- loading motor vehicle insurance table form bronze layer to siver after cleaning the data
+-- 1. Transform and Load Motor Vehicle Insurance Data
 TRUNCATE TABLE mc_silver.mv_insurance;
-INSERT INTO mc_silver.mv_insurance(
+
+INSERT INTO mc_silver.mv_insurance
 SELECT 
-	id,
-	str_to_date(nullif(contract_str_date,''), '%d/%m/%Y'), 
-    str_to_date(nullif(last_renewal_date,''), '%d/%m/%Y'), 
-    str_to_date(nullif(next_renewal_date,''), '%d/%m/%Y'), 
-    str_to_date(nullif(dob,''), '%d/%m/%Y'), 
-    str_to_date(nullif(dl_issue_date,''), '%d/%m/%Y'), 	  
-    case
-		when distribution_channel = 0 then 'Direct'
-        when distribution_channel = 1 then 'Agent'
-        else 'Unknown'
-	end,
+    id,
+    STR_TO_DATE(NULLIF(contract_str_date, ''), '%d/%m/%Y'), 
+    STR_TO_DATE(NULLIF(last_renewal_date, ''), '%d/%m/%Y'), 
+    STR_TO_DATE(NULLIF(next_renewal_date, ''), '%d/%m/%Y'), 
+    STR_TO_DATE(NULLIF(dob, ''), '%d/%m/%Y'), 
+    STR_TO_DATE(NULLIF(dl_issue_date, ''), '%d/%m/%Y'),      
+    CASE
+        WHEN distribution_channel = 0 THEN 'Direct'
+        WHEN distribution_channel = 1 THEN 'Agent'
+        ELSE 'Unknown'
+    END,
     seniortiy_years,
     policy_running_years,
     max_policies,
     max_products,
     lapse,
-	str_to_date(nullif(lapse_date,''), '%d/%m/%Y'), 	    
-    case
-		when str_to_date(nullif(lapse_date,''), '%d/%m/%Y') is null then 'Active'
-        else 'Lapsed'
-        end,
-    case
-		when payment = 0 then 'Annual'
-        when payment = 1 then 'Installments'
-        else 'Unkown'
-	end,
-	cast(replace(premium,',','.') as float),					 
-    cast(replace(claim_cost_yearly,',','.') as float), 		   
-    case 
-		when nclaim_year = 0 then 'Clean Record'
-		when nclaim_year between 1 and 2 then 'Minor History'
-		else 'Frequent Claimant'
-	end as driver_risk_segment,
+    STR_TO_DATE(NULLIF(lapse_date, ''), '%d/%m/%Y'),      
+    CASE
+        WHEN STR_TO_DATE(NULLIF(lapse_date, ''), '%d/%m/%Y') IS NULL THEN 'Active'
+        ELSE 'Lapsed'
+    END,
+    CASE
+        WHEN payment = 0 THEN 'Annual'
+        WHEN payment = 1 THEN 'Installments'
+        ELSE 'Unknown'
+    END,
+    CAST(REPLACE(premium, ',', '.') AS FLOAT),                 
+    CAST(REPLACE(claim_cost_yearly, ',', '.') AS FLOAT),        
+    nclaim_year,
     nclaim_history,
-    cast(replace(rclaim_history,',','.') as float),			   
-    concat('Risk level','', risk_type),		  
-    case
-		when area = 1 then 'Urban'
-        else 'Rural'
-	end,
-    case
-		when second_driver = 1 then 'Yes'
-        else 'No'
-	end,
-    cast(veh_registered_year as unsigned),
+    CAST(REPLACE(rclaim_history, ',', '.') AS FLOAT),           
+    CONCAT('Risk level ', risk_type),      
+    CASE
+        WHEN area = 1 THEN 'Urban'
+        ELSE 'Rural'
+    END,
+    CASE
+        WHEN second_driver = '1' THEN 'Yes'
+        ELSE 'No'
+    END,
+    CAST(veh_registered_year AS UNSIGNED),
     veh_power,
     veh_cylinder_cap,
-    cast(replace(veh_value,',','.') as float), 			
+    CAST(REPLACE(veh_value, ',', '.') AS FLOAT),             
     veh_no_doors,
-    case
-		when veh_fuel_type = 'P' then 'Petrol'
-        when veh_fuel_type = 'D' then 'Diesel'
-        else 'Unknown'
-	end,
-    cast(replace(nullif(veh_lenght,'NA'),',','.') as float) ,
+    CASE
+        WHEN veh_fuel_type = 'P' THEN 'Petrol'
+        WHEN veh_fuel_type = 'D' THEN 'Diesel'
+        ELSE 'Unknown'
+    END,
+    CAST(REPLACE(NULLIF(veh_lenght, 'NA'), ',', '.') AS FLOAT),
     veh_weight
-from mc_bronze.mv_insurance)
+FROM mc_bronze.mv_insurance;
 
--- loading claim_type data from bronze layer to silver layer after cleaning the data
-truncate table mc_silver.claim_type;
+-- 2. Transform and Load Claims Type Data
+TRUNCATE TABLE mc_silver.claim_type;
+
 INSERT INTO mc_silver.claim_type
-select
-	id,
-    cast(replace(cost_claims_year,',','.') as float),
-    cast(replace(cost_claim_by_type,',','.') as float),
+SELECT
+    id,
+    CAST(REPLACE(cost_claims_year, ',', '.') AS FLOAT),
+    CAST(REPLACE(cost_claim_by_type, ',', '.') AS FLOAT),
     claim_type
-from mc_bronze.claim_type;
-
+FROM mc_bronze.claim_type;
